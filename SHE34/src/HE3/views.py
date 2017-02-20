@@ -6,9 +6,9 @@ from django.core.urlresolvers import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import FormView, ListView,DetailView
 from django.utils import timezone
-from .tables import EvaluationsTables
+from .tables import EvaluationsTablesForEvaluator,EvaluationsTablesForManager
+from django_tables2 import RequestConfig
 
-#
 def showDashboard(request):
     model = Project
     template_name = 'HE3/dashboard.html'
@@ -194,8 +194,11 @@ class ProjectDetail(DetailView):
             allEvaluations = project.evaluation_for_project.all()
             evaluationsOfUser = allEvaluations.filter(evaluator= self.request.user)
             # evaluators = project.evaluators.all()
-            tableAllE = EvaluationsTables(allEvaluations)
-            tableEvOfUser = EvaluationsTables(evaluationsOfUser)
+            tableAllE = EvaluationsTablesForManager(allEvaluations)
+            tableEvOfUser = EvaluationsTablesForEvaluator(evaluationsOfUser)
+            RequestConfig(self.request).configure(tableAllE)
+            RequestConfig(self.request).configure(tableEvOfUser)
+
             context = { 'project' : project ,
                         'now' : timezone.now().date(),
                         'tableAllE': tableAllE,
