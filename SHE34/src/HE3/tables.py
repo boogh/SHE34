@@ -1,12 +1,11 @@
-import django_tables2 as tables
 from django_tables2.utils import A
+import django_tables2 as tables
 from .models import Evaluation
 from django.utils.html import format_html
 import itertools
 
 class EvaluationsTablesForEvaluator(tables.Table):
 
-    # evaluator =tables.Column()
     row_number = tables.Column(empty_values=() , verbose_name= '#')
     title = tables.LinkColumn('profiles:dashboard:evaluation-update', args=[A('pk')])
     heurPrincip = tables.Column()
@@ -17,7 +16,6 @@ class EvaluationsTablesForEvaluator(tables.Table):
     positivity = tables.Column()
     severity = tables.Column()
     frequency = tables.Column()
-    # checkbox = tables.CheckBoxColumn(args='pk' )
 
 
     class Meta:
@@ -37,10 +35,6 @@ class EvaluationsTablesForEvaluator(tables.Table):
 
 class EvaluationsTablesForManager(tables.Table):
 
-
-
-    # evaluator = UserCol()
-    ...
     row_number = tables.Column(empty_values=() , verbose_name= '#')
     evaluator = tables.Column()
     title = tables.LinkColumn('profiles:dashboard:evaluation-update', args=[A('pk')])
@@ -52,7 +46,6 @@ class EvaluationsTablesForManager(tables.Table):
     positivity = tables.Column()
     severity = tables.Column()
     frequency = tables.Column()
-    # checkbox = tables.CheckBoxColumn(args='pk' )
 
 
     class Meta:

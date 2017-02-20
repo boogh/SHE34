@@ -31,6 +31,8 @@ def populate():
                 {'email': 'user7@user7.com', 'password': 'user7', 'name': 'user7'},
                 {'email': 'user8@user8.com', 'password': 'user8', 'name': 'user8'},]
 
+    for user in user_items:
+        addUser(user)
 
     setdata = [ { 'title' : 'Default-set' , 'disc' : 'Nielson Heuristic Principles'}]
 
@@ -63,8 +65,7 @@ def populate():
                       'evaluator': ['user2', 'user3', 'user4', 'user5']},
                      ]
 
-    for user in user_items:
-        addUser(user)
+
 
     for project in project_items:
         addProject(project)
@@ -121,7 +122,7 @@ def populate():
 
 
 def addSetHE(setdata , setitems):
-    set , create = SetOfHeuristics.objects.get_or_create(title=setdata['title'] , discription=setdata['disc'])
+    set , create = SetOfHeuristics.objects.get_or_create(creator=User.objects.get(name='user1'),title=setdata['title'] , discription=setdata['disc'])
     for item in setitems :
         title = item[0]+'- '+item[1]
         princip , create = HeuristicPrinciples.objects.get_or_create(belongsToSet = set , title = title )
