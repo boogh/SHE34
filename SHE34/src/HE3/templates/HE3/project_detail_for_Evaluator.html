@@ -1,13 +1,13 @@
 {% extends 'HE3/baseHE.html' %}
-{#{% load render_table from django_tables2 %}#}
+{% load render_table from django_tables2 %}
 
 {% load staticfiles %}
-{##}
-{#{% block styles %}#}
-{#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">#}
-{#        <link rel="stylesheet" type="text/css" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}" />#}
-{##}
-{#{% endblock %}#}
+
+{% block styles %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}" />
+
+{% endblock %}
 
 {% block breadcrumb %}
     <li class="breadcrumb"> <a class="" href="{% url 'profiles:dashboard:user-dashboard' %}"> Dashboard </a> </li>
@@ -19,7 +19,7 @@
 
     <div class="col-sm-9">
 
-        <div class="row">
+        <div class="row"> <!-- row for project detail -->
             <div class="panel panel-primary">
                 <div class="panel-heading text-center"> <span class="page-header"><h2>{{ project.name }} </h2></span></div>
                 <div class="panel-body">
@@ -76,59 +76,63 @@
                     </div>
                 </div><!--Panel body -->
             </div><!--Panel -->
-        </div>
+        </div> <!--end of row for project deatil -->
 
 
-        <div class="row">
+        <div class="row"> <!-- row for submitted evaluations -->
             <div class="panel panel-success">
                 <div class="panel-heading text-center"> <h4 class="lead text-success">Submitted Evaluations </h4> </div>
                 <div class="panel-body">
                     <div class="table table-responsive">
-                        <table class="table table-bordered table-striped table-hover">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Title</th>
-                                <th>Heuristic Principe</th>
-                                <th>Place</th>
-                                <th>Tags</th>
-                                <th>Description</th>
-                                <th>Recommendation</th>
-                                <th>Positivity</th>
-                                <th>Severity</th>
-                                <th>Frequency</th>
-                                <th>Screenshot</th>
-                                <th class=" action-checkbox-column"> <label> <input type="checkbox"></label></th>
-
-
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for e in evaluationsOfUser %}
-                                <tr>
-                                    <td> <a href="{% url 'profiles:dashboard:evaluation-update' e.pk %}">{{ forloop.counter }}</a></td>
-                                    <td> <a href="{% url 'profiles:dashboard:evaluation-update' e.pk %}">{{ e.title }}</a></td>
-                                    <td>  {{ e.get_heurPrincip_display}}   </td>
-                                    <td>{{ e.place }}</td>
-                                    <td>{{ e.tags }}</td>
-                                    <td>{{ e.description }} </td>
-                                    <td>{{ e.recommendation}}</td>
-                                    <td> {{ e.get_positivity_display }}</td>
-                                    <td>{{ e.get_severity_display }}</td>
-                                    <td>{{ e.get_frequency_display }}</td>
-                                    <td>{{ e.screenshot }}</td> </a>
-                                    <td class=" action-checkbox-column"> <label> <input type="checkbox"></label></td>
-                                </tr>
-
-
-                            {% endfor %}
-                            </tbody>
-                        </table>
+                        {% render_table tableEvOfUser %}
                     </div>
                 </div>
 
             </div>
-        </div>
+        </div> <!--end of row for submited evaluaitons -->
 
     </div><!-- col-sm-9 -->
 {% endblock  %}
+
+
+<!-- without table2 -->
+{#                        <table class="table table-bordered table-striped table-hover">#}
+{#                            <thead>#}
+{#                            <tr>#}
+{#                                <th>#</th>#}
+{#                                <th>Title</th>#}
+{#                                <th>Heuristic Principe</th>#}
+{#                                <th>Place</th>#}
+{#                                <th>Tags</th>#}
+{#                                <th>Description</th>#}
+{#                                <th>Recommendation</th>#}
+{#                                <th>Positivity</th>#}
+{#                                <th>Severity</th>#}
+{#                                <th>Frequency</th>#}
+{#                                <th>Screenshot</th>#}
+{#                                <th class=" action-checkbox-column"> <label> <input type="checkbox"></label></th>#}
+{##}
+{##}
+{#                            </tr>#}
+{#                            </thead>#}
+{#                            <tbody>#}
+{#                            {% for e in evaluationsOfUser %}#}
+{#                                <tr>#}
+{#                                    <td> <a href="{% url 'profiles:dashboard:evaluation-update' e.pk %}">{{ forloop.counter }}</a></td>#}
+{#                                    <td> <a href="{% url 'profiles:dashboard:evaluation-update' e.pk %}">{{ e.title }}</a></td>#}
+{#                                    <td>  {{ e.get_heurPrincip_display}}   </td>#}
+{#                                    <td>{{ e.place }}</td>#}
+{#                                    <td>{{ e.tags }}</td>#}
+{#                                    <td>{{ e.description }} </td>#}
+{#                                    <td>{{ e.recommendation}}</td>#}
+{#                                    <td> {{ e.get_positivity_display }}</td>#}
+{#                                    <td>{{ e.get_severity_display }}</td>#}
+{#                                    <td>{{ e.get_frequency_display }}</td>#}
+{#                                    <td>{{ e.screenshot }}</td> </a>#}
+{#                                    <td class=" action-checkbox-column"> <label> <input type="checkbox"></label></td>#}
+{#                                </tr>#}
+{##}
+{##}
+{#                            {% endfor %}#}
+{#                            </tbody>#}
+{#                        </table>#}

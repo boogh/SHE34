@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import FormView, ListView,DetailView
 from django.utils import timezone
-# from .tables import EvaluationsTables
+from .tables import EvaluationsTables
 
 #
 def showDashboard(request):
@@ -162,21 +162,44 @@ def EvaluatorDelete(request , project_id):
 #
 #     return render(request,template_name, context )
 
+# class ProjectDetail(DetailView):
+#     model = Project
+#     template_name = 'HE3/project_detail.html'
+#
+#     def get_object(self, queryset=None):
+#         return get_object_or_404(Project,pk =self.kwargs.get('pk'))
+#     def get_context_data(self, **kwargs):
+#         context = super(ProjectDetail,self).get_context_data(**kwargs)
+#         project = self.get_object()
+#         allEvaluations = project.evaluation_for_project.all()
+#         evaluationsOfUser = allEvaluations.filter(evaluator= self.request.user)
+#         # evaluators = project.evaluators.all()
+#
+#         context = { 'project' : project ,
+#                     'now' : timezone.now().date(),
+#                     'evaluationsOfUser': evaluationsOfUser,
+#                      }
+#         return context
+
 class ProjectDetail(DetailView):
     model = Project
     template_name = 'HE3/project_detail.html'
 
     def get_object(self, queryset=None):
         return get_object_or_404(Project,pk =self.kwargs.get('pk'))
-    def get_context_data(self, **kwargs):
-        context = super(ProjectDetail,self).get_context_data(**kwargs)
-        project = self.get_object()
-        allEvaluations = project.evaluation_for_project.all()
-        evaluationsOfUser = allEvaluations.filter(evaluator= self.request.user)
-        # evaluators = project.evaluators.all()
 
-        context = { 'project' : project ,
-                    'now' : timezone.now().date(),
-                    'evaluationsOfUser': evaluationsOfUser,
-                     }
-        return context
+    def get_context_data(self, **kwargs):
+            context = super(ProjectDetail,self).get_context_data(**kwargs)
+            project = self.get_object()
+            allEvaluations = project.evaluation_for_project.all()
+            evaluationsOfUser = allEvaluations.filter(evaluator= self.request.user)
+            # evaluators = project.evaluators.all()
+            tableAllE = EvaluationsTables(allEvaluations)
+            tableEvOfUser = EvaluationsTables(evaluationsOfUser)
+            context = { 'project' : project ,
+                        'now' : timezone.now().date(),
+                        'tableAllE': tableAllE,
+                        'tableEvOfUser':tableEvOfUser,
+                                                 }
+            return context
+

@@ -1,5 +1,14 @@
+
 {% extends 'HE3/baseHE.html' %}
+{% load render_table from django_tables2 %}
+
 {% load staticfiles %}
+
+{% block styles %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}" />
+{% endblock %}
+
 
 {% block breadcrumb %}
     <li class="breadcrumb"> <a href="{% url 'profiles:dashboard:user-dashboard' %}"> Dashboard </a> </li>
@@ -11,7 +20,7 @@
 
 {% block content %}
     <div class="col-sm-9">
-        <div class="panel panel-primary">
+        <div class="panel panel-primary"> <!-- panel for project detail -->
             <div class="panel-heading text-center">
                 <h3 class="lead"><strong>{{ project.name }}</strong> </h3>
             </div>
@@ -68,15 +77,17 @@
                 </table>
             </div>
         </div> <!-- end of panel for project detail -->
-        <div class="row">
+
+        <div class="row"> <!-- panel for evaluations -->
             <div class="panel panel-success"> <!-- panel for evaluations -->
                 <div class="panel-heading text-center"> <h4 class="lead text-success">Submitted Evaluations </h4> </div>
                 <div class="panel-body">
                     <div class="table table-responsive">
+                        {% render_table tableAllE %}
                     </div>
-                    <div class="table table-responsive" >
-                        {% include 'HE3/evaluation-tables.html' %}
-                    </div>
+{#                    <div class="table table-responsive" >#}
+{#                        {% include 'HE3/evaluation-tables.html' %}#}
+{#                    </div>#}
                 </div>
             </div> <!-- end of panel for evaluations -->
         </div>
