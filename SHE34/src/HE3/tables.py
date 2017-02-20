@@ -7,7 +7,8 @@ import itertools
 class EvaluationsTablesForEvaluator(tables.Table):
 
     # evaluator =tables.Column()
-    title = tables.Column()
+    row_number = tables.Column(empty_values=() , verbose_name= '#')
+    title = tables.LinkColumn('profiles:dashboard:evaluation-update', args=[A('pk')])
     heurPrincip = tables.Column()
     place = tables.Column()
     tags = tables.Column()
@@ -25,7 +26,14 @@ class EvaluationsTablesForEvaluator(tables.Table):
         # attrs = {'class':  'paleblue'}
         attrs ={'class' : 'table table-responsive', "width":"100%"}
         exclude=('id' ,'evaluator', 'ofProject')
-        sequence=('title','heurPrincip','place','description' ,'recommendation','positivity','severity','frequency','tags')
+        sequence=('row_number','title','heurPrincip','place','description' ,'recommendation','positivity','severity','frequency','tags')
+
+    def __init__(self, *args, **kwargs):
+        super(EvaluationsTablesForEvaluator, self).__init__(*args, **kwargs)
+        self.counter = itertools.count()
+
+    def render_row_number(self):
+        return next(self.counter)
 
 class EvaluationsTablesForManager(tables.Table):
 
